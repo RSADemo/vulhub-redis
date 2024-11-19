@@ -33,6 +33,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Run Aqua scanner
+        uses: docker://aquasec/aqua-scanner
+        with:
+          args: trivy -d fs --scanners config,vuln,secret . --sast
       - name: Build image locally
         run: |
           docker build -t "$ECR_REGISTRY/aquainteglab:$ECR_REPOSITORY$IMAGE_TAG" .
